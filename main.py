@@ -11,26 +11,20 @@ client = Groq(api_key=api_key)
 def codificar_imagen(archivo_subido):
     return base64.b64encode(archivo_subido.read()).decode('utf-8')
 
-# Le damos un título chulo para cuando lo vea el reclutador
 st.set_page_config(page_title="AI Eyes", page_icon="👁️")
 st.title("Descriptor de Entorno con IA")
 st.write("Seleccionar un archivo y te describiré lo que aparece, dando contexto histórico en caso de que lo identifique.")
 
-# El botón para subir archivos desde la galería o el ordenador
 foto = st.file_uploader("Sube una foto de tu galería", type=["jpg", "jpeg", "png"])
 
-# Si el usuario sube una foto, entramos aquí directamente
-# Si el usuario sube una foto, entramos aquí directamente
 if foto:
-    # Mostramos la imagen en pantalla
     st.image(foto, caption="Imagen seleccionada", use_container_width=True)
-    
-    # --- LA MAGIA: Comprobamos si esta foto es nueva o si ya la habíamos procesado ---
     if "ultimo_archivo" not in st.session_state or st.session_state["ultimo_archivo"] != foto.file_id:
         
         imagen_base64 = codificar_imagen(foto)
         
         prompt_sistema = """Eres los ojos de una persona con discapacidad visual severa. Tu objetivo es describir la imagen adjunta de forma útil.
+        Sólamente puedes responder si es algo relacionado con monumentos, paisajes o edificios históricos. En caso de que no corresponda, sólamente responde "La imagen no está relacionada con el propósito de la web"
         1. Describe la escena general, el paisaje, el entorno o los objetos principales de forma clara y concisa.
         2. SI (y solo si) identificas un monumento, edificio famoso, obra de arte o sitio histórico reconocible, di su nombre y añade un párrafo contando su historia o importancia cultural. Así como otro explicando la construcción del monumento o disposición de las obras.
         Sé natural, directo y no uses lenguaje excesivamente robótico.
@@ -49,17 +43,15 @@ if foto:
                     }
                 ],
             )
-
-            # Guardamos la respuesta original y el "DNI" de la foto en la memoria
-            st.session_state["texto_original"] = response.choices[0].message.content
+            st.session_state["texto_original"] = response.choices[0].message.content.replace('\n', '<br>')
+        
             st.session_state["ultimo_archivo"] = foto.file_id
             
         st.success("¡Entorno analizado!")
 
-    # 1. PINTAMOS EL TEXTO ORIGINAL SIEMPRE (Sacado de la memoria, no de la IA)
     html_accesible = f"""
     <div id="bloque-respuesta" aria-live="assertive" role="alert" tabindex="-1" style="background-color: #f0f2f6; padding: 20px; border-radius: 10px; margin-top: 20px;">
-        <p style="font-size: 18px; color: #31333F;">{st.session_state["texto_original"]}</p>
+        <p style="font-size: 18px; color: #31333F;">{st.session_state["texto_original"] }</p>
     </div>
     <script>
         const doc = window.parent.document;
@@ -72,7 +64,6 @@ if foto:
     """
     st.markdown(html_accesible, unsafe_allow_html=True)
 
-    # 2. SECCIÓN DE LECTURA FÁCIL
     st.write("---")
     
     if st.button("Adaptar descripción a lectura fácil", use_container_width=True):
@@ -100,6 +91,7 @@ if foto:
             )
             
             texto_simplificado = response_lf.choices[0].message.content
+            texto_simplificado = texto_simplificado.replace('\n', '<br><br>')
             st.success("✨ Texto adaptado a Lectura Fácil:")
 
             html_facil = f"""
