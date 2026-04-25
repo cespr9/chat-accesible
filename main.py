@@ -14,9 +14,10 @@ def codificar_imagen(archivo_subido):
 # Le damos un título chulo para cuando lo vea el reclutador
 st.set_page_config(page_title="AI Eyes", page_icon="👁️")
 # --- TRUCO CSS PARA CAMBIAR EL TEXTO DEL BOTÓN ---
+# --- TRUCO CSS PARA TRADUCIR EL FILE UPLOADER COMPLETO ---
 st.markdown("""
     <style>
-    /* Ocultamos el texto original del botón y añadimos el nuestro */
+    /* 1. Botón "Browse files" -> "Subir imagen" */
     div[data-testid="stFileUploader"] section button span::after {
         content: "Subir imagen";
         font-size: 16px;
@@ -25,10 +26,22 @@ st.markdown("""
         font-size: 0px;
     }
     
-    /* Opcional: Hacer el botón más grande para que sea fácil de pulsar */
-    div[data-testid="stFileUploader"] section button {
-        padding: 10px 20px;
-        width: 100%;
+    /* 2. Texto "Drag and drop file here" -> "o arrastra y suelta la foto aquí" */
+    div[data-testid="stFileUploadDropzone"] > div > div > span {
+        font-size: 0px;
+    }
+    div[data-testid="stFileUploadDropzone"] > div > div > span::after {
+        content: "o arrastra y suelta la foto aquí";
+        font-size: 15px;
+    }
+
+    /* 3. Límite de tamaño "Limit 200MB per file" -> "Límite: 200MB" */
+    div[data-testid="stFileUploadDropzone"] > div > small {
+        font-size: 0px;
+    }
+    div[data-testid="stFileUploadDropzone"] > div > small::after {
+        content: "Límite: 200MB";
+        font-size: 13px;
     }
     </style>
 """, unsafe_allow_html=True)
