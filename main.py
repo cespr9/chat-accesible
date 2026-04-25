@@ -88,6 +88,23 @@ if foto:
             ],
         )
 
+       # 5. Extraemos la respuesta
         respuesta_ia = response.choices[0].message.content
         st.success("¡Entorno analizado!")
-        st.info(respuesta_ia)
+        
+        # --- CÓDIGO DE ACCESIBILIDAD AVANZADA PARA VOICEOVER ---
+        html_accesible = f"""
+        <div id="bloque-respuesta" aria-live="assertive" role="alert" tabindex="-1" style="background-color: #f0f2f6; padding: 20px; border-radius: 10px; margin-top: 20px;">
+            <p style="font-size: 18px; color: #31333F;">{respuesta_ia}</p>
+        </div>
+        <script>
+            // Forzamos al navegador a bajar hasta la respuesta y pasarle el foco
+            const doc = window.parent.document;
+            const elemento = doc.getElementById('bloque-respuesta');
+            if(elemento) {{
+                elemento.scrollIntoView({{behavior: 'smooth', block: 'center'}});
+                elemento.focus();
+            }}
+        </script>
+        """
+        st.markdown(html_accesible, unsafe_allow_html=True)
