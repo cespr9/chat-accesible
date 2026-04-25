@@ -20,7 +20,7 @@ st.markdown("""
     /* 1. Botón "Browse files" -> "Subir imagen" */
     div[data-testid="stFileUploader"] section button span::after {
         content: "Subir imagen";
-        font-size: 16px;
+        font-size: 10px;
     }
     div[data-testid="stFileUploader"] section button span {
         font-size: 0px;
