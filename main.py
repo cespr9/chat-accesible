@@ -13,6 +13,25 @@ def codificar_imagen(archivo_subido):
 
 # Le damos un título chulo para cuando lo vea el reclutador
 st.set_page_config(page_title="AI Eyes", page_icon="👁️")
+# --- TRUCO CSS PARA CAMBIAR EL TEXTO DEL BOTÓN ---
+st.markdown("""
+    <style>
+    /* Ocultamos el texto original del botón y añadimos el nuestro */
+    div[data-testid="stFileUploader"] section button span::after {
+        content: "Subir imagen";
+        font-size: 16px;
+    }
+    div[data-testid="stFileUploader"] section button span {
+        font-size: 0px;
+    }
+    
+    /* Opcional: Hacer el botón más grande para que sea fácil de pulsar */
+    div[data-testid="stFileUploader"] section button {
+        padding: 10px 20px;
+        width: 100%;
+    }
+    </style>
+""", unsafe_allow_html=True)
 st.title("Descriptor de Entorno con IA")
 st.write("Seleccionar un archivo y te describiré lo que aparece, dando contexto histórico en caso de que lo identifique.")
 
