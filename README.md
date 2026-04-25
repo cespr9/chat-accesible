@@ -5,7 +5,6 @@ Una aplicación web construida con Streamlit y LLMs con la finalidad de describi
 ---
 
 ## 🎯 El Problema que Resuelve
-*(A los reclutadores les importa más tu visión de producto que tu código. Explica brevemente por qué hiciste esto).*
 * **El problema:** Muchas personas con discapacidad visual necesitan una forma fácil y rápida de obtener una descripción de aquello que están viendo cuando están de viaje. Las actuales soluciones publicadas necesitan que el usuario pida explícitamente una descripción de la foto, teniendo que ser explícito en aquello que desea centrarse.
 * **La solución:** El descriptor de fotos con IA ofrece una solución sencilla: EL usuario símplemente debe subir la fotografía y se encarga de realizar la consulta centrada para obtener la información que un usuario promedio desea conocer de los monumentos, añadiendo parte de contexto histórico a la descripción física del lugar.
 
